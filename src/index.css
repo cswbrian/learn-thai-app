@@ -71,4 +71,10 @@
   h1, h2, h3, h4, h5, h6{
     @apply font-heading;
   }
+
+  /* Apply Sarabun font to Thai characters */
+  [lang="th"],
+  .thai-font {
+    font-family: "Sarabun", sans-serif;
+  }
 }
