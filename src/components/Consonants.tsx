@@ -5,6 +5,7 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { motion } from "framer-motion";
 
 const getClassColor = (classType: ConsonantClass): string => {
   const colorMap: Record<ConsonantClass, string> = {
@@ -111,22 +112,30 @@ export const Consonants = () => {
   );
 
   const renderCard = (consonant: (typeof consonants)[0], bgColor: string, showSound: boolean = true) => (
-    <Card
+    <motion.div
       key={consonant.thai}
-      className="flex flex-col items-center justify-center p-3 min-h-[80px]"
-      style={{ backgroundColor: bgColor }}
+      layoutId={`consonant-${consonant.thai}`}
+      layout
+      transition={{
+        layout: { duration: 0.5, ease: [0.4, 0, 0.2, 1] }
+      }}
     >
-      <CardContent className={`flex flex-col items-center justify-center p-0 ${showSound ? 'gap-2' : ''}`}>
-        <div className="text-5xl text-foreground thai-font leading-none text-center">
-          {consonant.thai}
-        </div>
-        {showSound && (
-          <div className="text-md text-muted-foreground text-center">
-            {consonant.consonantSound || "-"}
+      <Card
+        className="flex flex-col items-center justify-center p-3 min-h-[80px]"
+        style={{ backgroundColor: bgColor }}
+      >
+        <CardContent className={`flex flex-col items-center justify-center p-0 ${showSound ? 'gap-2' : ''}`}>
+          <div className="text-5xl text-foreground thai-font leading-none text-center">
+            {consonant.thai}
           </div>
-        )}
-      </CardContent>
-    </Card>
+          {showSound && (
+            <div className="text-md text-muted-foreground text-center">
+              {consonant.consonantSound || "-"}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 
   return (
@@ -146,51 +155,66 @@ export const Consonants = () => {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="class">
-            {classOrder.map((classType) => (
-              <div key={classType} className="mb-8">
-                <h2 className="mb-4 text-lg font-semibold">
-                  {getClassLabel(classType)}
-                </h2>
-                <div className="grid grid-cols-5 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
-                  {groupedByClass[classType]?.map((consonant) =>
-                    renderCard(consonant, getClassColor(consonant.class))
-                  )}
-                </div>
-              </div>
-            ))}
+          <TabsContent value="class" asChild>
+            <motion.div layout>
+              {classOrder.map((classType) => (
+                <div key={classType} className="mb-8">
+                    <h2 className="mb-4 text-lg font-semibold">
+                      {getClassLabel(classType)}
+                    </h2>
+                    <motion.div
+                      layout
+                      className="grid grid-cols-5 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8"
+                    >
+                      {groupedByClass[classType]?.map((consonant) =>
+                        renderCard(consonant, getClassColor(consonant.class))
+                      )}
+                    </motion.div>
+                  </div>
+                ))}
+            </motion.div>
           </TabsContent>
 
-          <TabsContent value="sound">
-            {renderLegend()}
-            {sortedSounds.map((sound) => (
-              <div key={sound} className="mb-8">
-                <h2 className="mb-4 text-lg font-semibold">
-                  {sound === "empty" ? "Empty Sound" : `/${sound}/`}
-                </h2>
-                <div className="grid grid-cols-5 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
-                  {sortByClass(groupedBySound[sound] || []).map((consonant) =>
-                    renderCard(consonant, getClassColor(consonant.class), false)
-                  )}
-                </div>
-              </div>
-            ))}
+          <TabsContent value="sound" asChild>
+            <motion.div layout>
+              {renderLegend()}
+              {sortedSounds.map((sound) => (
+                <div key={sound} className="mb-8">
+                    <h2 className="mb-4 text-lg font-semibold">
+                      {sound === "empty" ? "Empty Sound" : `/${sound}/`}
+                    </h2>
+                    <motion.div
+                      layout
+                      className="grid grid-cols-5 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8"
+                    >
+                      {sortByClass(groupedBySound[sound] || []).map((consonant) =>
+                        renderCard(consonant, getClassColor(consonant.class), false)
+                      )}
+                    </motion.div>
+                  </div>
+                ))}
+            </motion.div>
           </TabsContent>
 
-          <TabsContent value="popularity">
-            {renderLegend()}
-            {sortedPopularities.map((popularity) => (
-              <div key={popularity} className="mb-8">
-                <h2 className="mb-4 text-lg font-semibold">
-                  Popularity {popularity === 999 ? "Unknown" : popularity}
-                </h2>
-                <div className="grid grid-cols-5 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
-                  {sortByClass(groupedByPopularity[popularity] || []).map((consonant) =>
-                    renderCard(consonant, getClassColor(consonant.class))
-                  )}
-                </div>
-              </div>
-            ))}
+          <TabsContent value="popularity" asChild>
+            <motion.div layout>
+              {renderLegend()}
+              {sortedPopularities.map((popularity) => (
+                <div key={popularity} className="mb-8">
+                    <h2 className="mb-4 text-lg font-semibold">
+                      Popularity {popularity === 999 ? "Unknown" : popularity}
+                    </h2>
+                    <motion.div
+                      layout
+                      className="grid grid-cols-5 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8"
+                    >
+                      {sortByClass(groupedByPopularity[popularity] || []).map((consonant) =>
+                        renderCard(consonant, getClassColor(consonant.class))
+                      )}
+                    </motion.div>
+                  </div>
+                ))}
+            </motion.div>
           </TabsContent>
         </Tabs>
       </div>
