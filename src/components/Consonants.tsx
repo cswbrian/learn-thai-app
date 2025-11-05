@@ -108,7 +108,7 @@ export const Consonants = () => {
     </div>
   );
 
-  const renderCard = (consonant: (typeof consonants)[0], bgColor: string, showSound: boolean = true) => (
+  const renderCard = (consonant: (typeof consonants)[0], showSound: boolean = true) => (
     <motion.div
       key={consonant.thai}
       layoutId={`consonant-${consonant.thai}`}
@@ -150,7 +150,7 @@ export const Consonants = () => {
                       className="grid grid-cols-5 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8"
                     >
                       {groupedByClass[classType]?.map((consonant) =>
-                        renderCard(consonant, getClassColor(consonant.class))
+                        renderCard(consonant)
                       )}
                     </motion.div>
                   </div>
@@ -171,7 +171,7 @@ export const Consonants = () => {
                       className="grid grid-cols-5 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8"
                     >
                       {sortByClass(groupedBySound[sound] || []).map((consonant) =>
-                        renderCard(consonant, getClassColor(consonant.class), false)
+                        renderCard(consonant, false)
                       )}
                     </motion.div>
                   </div>
@@ -192,7 +192,7 @@ export const Consonants = () => {
                       className="grid grid-cols-5 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8"
                     >
                       {sortByClass(groupedByPopularity[popularity] || []).map((consonant) =>
-                        renderCard(consonant, getClassColor(consonant.class))
+                        renderCard(consonant)
                       )}
                     </motion.div>
                   </div>
