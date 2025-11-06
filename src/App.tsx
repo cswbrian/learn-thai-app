@@ -4,6 +4,9 @@ import { Consonants } from "@/components/Consonants";
 import { Numbers } from "@/components/Numbers";
 import { Quiz } from "@/components/Quiz";
 import { Vowels } from "@/components/Vowels";
+import { Home } from "@/components/Home";
+import { FinalConsonants } from "@/components/FinalConsonants";
+import { Letters } from "@/components/Letters";
 
 const QuizContext = createContext<{
   isInQuiz: boolean;
@@ -35,27 +38,17 @@ function Navigation() {
               : "text-foreground hover:bg-secondary-background"
           }`}
         >
-          Consonants
+          Home
         </Link>
         <Link
-          to="/vowels"
+          to="/letters"
           className={`flex flex-1 items-center justify-center font-base transition-colors ${
-            location.pathname === "/vowels"
+            location.pathname === "/letters" || location.pathname.startsWith("/letters/")
               ? "bg-main text-main-foreground"
               : "text-foreground hover:bg-secondary-background"
           }`}
         >
-          Vowels
-        </Link>
-        <Link
-          to="/numbers"
-          className={`flex flex-1 items-center justify-center font-base transition-colors ${
-            location.pathname === "/numbers"
-              ? "bg-main text-main-foreground"
-              : "text-foreground hover:bg-secondary-background"
-          }`}
-        >
-          Numbers
+          Letters
         </Link>
         <Link
           to="/quiz"
@@ -76,13 +69,16 @@ function App() {
   const [isInQuiz, setIsInQuiz] = useState(false);
 
   return (
-    <BrowserRouter basename="/learn-thai-app">
+    <BrowserRouter basename={import.meta.env.PROD ? "/learn-thai-app" : ""}>
       <QuizContext.Provider value={{ isInQuiz, setIsInQuiz }}>
         <div className={`min-h-svh bg-background ${isInQuiz ? "" : "pb-16"}`}>
           <Routes>
-            <Route path="/" element={<Consonants />} />
-            <Route path="/vowels" element={<Vowels />} />
-            <Route path="/numbers" element={<Numbers />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/letters" element={<Letters />} />
+            <Route path="/letters/consonants" element={<Consonants />} />
+            <Route path="/letters/final-consonants" element={<FinalConsonants />} />
+            <Route path="/letters/vowels" element={<Vowels />} />
+            <Route path="/letters/numbers" element={<Numbers />} />
             <Route path="/quiz" element={<Quiz />} />
           </Routes>
           <Navigation />

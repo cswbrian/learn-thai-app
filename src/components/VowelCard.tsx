@@ -20,11 +20,8 @@ export const VowelCard = ({ vowel }: VowelCardProps) => {
   const charLength = vowel.thai.length;
   let textSizeClass: string;
   
-  if (charLength >= 4) {
-    // 4+ characters: smallest size
-    textSizeClass = "text-2xl sm:text-2xl md:text-3xl lg:text-4xl";
-  } else if (charLength === 3) {
-    // 3 characters: medium size
+  if (charLength >= 3) {
+    // 3+ characters: medium size
     textSizeClass = "text-3xl sm:text-3xl md:text-4xl lg:text-5xl";
   } else {
     // 1-2 characters: largest size
@@ -33,7 +30,7 @@ export const VowelCard = ({ vowel }: VowelCardProps) => {
 
   return (
     <Card
-      className="flex flex-col items-center justify-center p-3 h-[100px]"
+      className="flex flex-col items-center justify-center py-1 h-[100px]"
       style={{ backgroundColor: bgColor }}
     >
       <CardContent className="flex flex-col items-center justify-center p-0 gap-1 h-full">

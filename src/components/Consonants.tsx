@@ -3,6 +3,9 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 import { ConsonantCard } from "./ConsonantCard";
+import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const getClassColor = (classType: ConsonantClass): string => {
   const colorMap: Record<ConsonantClass, string> = {
@@ -124,7 +127,15 @@ export const Consonants = () => {
   return (
     <div className="bg-background p-4 pb-8">
       <div className="mx-auto max-w-4xl">
-        <h1 className="mb-6 text-center text-2xl">Initial Consonants</h1>
+        <div className="mb-6 flex items-center gap-4">
+          <Link to="/letters">
+            <Button variant="neutral" size="icon" className="rounded-base">
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+          </Link>
+          <h1 className="flex-1 text-center text-2xl">Initial Consonants</h1>
+          <div className="w-10" /> {/* Spacer for centering */}
+        </div>
         <Tabs defaultValue="class" className="w-full">
           <TabsList className="mb-6 w-full">
             <TabsTrigger value="class" className="flex-1">
