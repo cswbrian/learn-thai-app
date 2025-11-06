@@ -68,8 +68,23 @@ function Navigation() {
 function App() {
   const [isInQuiz, setIsInQuiz] = useState(false);
 
+  // Detect basename dynamically based on the hostname
+  // If we're on GitHub Pages (cswbrian.github.io), use /sawadee as basename
+  // Otherwise, use empty string for custom domain
+  const getBasename = () => {
+    if (typeof window !== 'undefined') {
+      const hostname = window.location.hostname;
+      // If on GitHub Pages domain, use /sawadee basename
+      if (hostname === 'cswbrian.github.io') {
+        return '/sawadee';
+      }
+    }
+    // For custom domain or localhost, use empty basename
+    return '';
+  };
+
   return (
-    <BrowserRouter basename={import.meta.env.PROD ? "/sawadee" : ""}>
+    <BrowserRouter basename={getBasename()}>
       <QuizContext.Provider value={{ isInQuiz, setIsInQuiz }}>
         <div className={`min-h-svh bg-background ${isInQuiz ? "" : "pb-16"}`}>
           <Routes>
