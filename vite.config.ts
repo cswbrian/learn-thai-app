@@ -5,8 +5,13 @@ import { defineConfig } from "vite"
 import { VitePWA } from "vite-plugin-pwa"
 
 // https://vite.dev/config/
-export default defineConfig(({ command }) => ({
-  base: command === "build" ? "/sawadee/" : "/", // GitHub Pages base path for production builds only
+export default defineConfig(({ command }) => {
+  // Use environment variable for base path, default to "/" for custom domain
+  // Set VITE_BASE_PATH=/sawadee/ if building for GitHub Pages URL
+  const basePath = process.env.VITE_BASE_PATH || (command === "build" ? "/" : "/")
+  
+  return {
+  base: basePath,
   plugins: [
     react(),
     tailwindcss(),
@@ -57,8 +62,8 @@ export default defineConfig(({ command }) => ({
         background_color: "#ffffff",
         display: "standalone",
         orientation: "portrait",
-        scope: command === "build" ? "/sawadee/" : "/",
-        start_url: command === "build" ? "/sawadee/" : "/",
+        scope: basePath,
+        start_url: basePath,
         icons: [
           {
             src: "pwa-64x64.png",
@@ -91,4 +96,5 @@ export default defineConfig(({ command }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-}))
+  }
+})
