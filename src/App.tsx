@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-do
 import { Consonants } from "@/components/Consonants";
 import { Numbers } from "@/components/Numbers";
 import { Quiz } from "@/components/Quiz";
+import { Vowels } from "@/components/Vowels";
 
 const QuizContext = createContext<{
   isInQuiz: boolean;
@@ -35,6 +36,16 @@ function Navigation() {
           }`}
         >
           Consonants
+        </Link>
+        <Link
+          to="/vowels"
+          className={`flex flex-1 items-center justify-center font-base transition-colors ${
+            location.pathname === "/vowels"
+              ? "bg-main text-main-foreground"
+              : "text-foreground hover:bg-secondary-background"
+          }`}
+        >
+          Vowels
         </Link>
         <Link
           to="/numbers"
@@ -70,6 +81,7 @@ function App() {
         <div className={`min-h-svh bg-background ${isInQuiz ? "" : "pb-16"}`}>
           <Routes>
             <Route path="/" element={<Consonants />} />
+            <Route path="/vowels" element={<Vowels />} />
             <Route path="/numbers" element={<Numbers />} />
             <Route path="/quiz" element={<Quiz />} />
           </Routes>
