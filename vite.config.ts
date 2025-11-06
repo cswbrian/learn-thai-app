@@ -6,9 +6,11 @@ import { VitePWA } from "vite-plugin-pwa"
 
 // https://vite.dev/config/
 export default defineConfig(({ command }) => {
-  // Use environment variable for base path, default to "/" for custom domain
-  // Set VITE_BASE_PATH=/sawadee/ if building for GitHub Pages URL
-  const basePath = process.env.VITE_BASE_PATH || (command === "build" ? "/" : "/")
+  // Use relative base path to work with both GitHub Pages URL and custom domain
+  // This allows the app to work at both:
+  // - https://cswbrian.github.io/sawadee/ (GitHub Pages)
+  // - https://sawadee.monsoonclub.co/ (custom domain)
+  const basePath = process.env.VITE_BASE_PATH || (command === "build" ? "./" : "/")
   
   return {
   base: basePath,
@@ -62,8 +64,8 @@ export default defineConfig(({ command }) => {
         background_color: "#ffffff",
         display: "standalone",
         orientation: "portrait",
-        scope: basePath,
-        start_url: basePath,
+        scope: command === "build" ? "./" : "/",
+        start_url: command === "build" ? "./" : "/",
         icons: [
           {
             src: "pwa-64x64.png",
