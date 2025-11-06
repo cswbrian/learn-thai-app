@@ -69,7 +69,7 @@ function App() {
   const [isInQuiz, setIsInQuiz] = useState(false);
 
   return (
-    <BrowserRouter basename={import.meta.env.PROD ? "/learn-thai-app" : ""}>
+    <BrowserRouter basename={import.meta.env.PROD ? "/sawadee" : ""}>
       <QuizContext.Provider value={{ isInQuiz, setIsInQuiz }}>
         <div className={`min-h-svh bg-background ${isInQuiz ? "" : "pb-16"}`}>
           <Routes>

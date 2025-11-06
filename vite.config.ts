@@ -6,7 +6,7 @@ import { VitePWA } from "vite-plugin-pwa"
 
 // https://vite.dev/config/
 export default defineConfig(({ command }) => ({
-  base: command === "build" ? "/learn-thai-app/" : "/", // GitHub Pages base path for production builds only
+  base: command === "build" ? "/sawadee/" : "/", // GitHub Pages base path for production builds only
   plugins: [
     react(),
     tailwindcss(),
@@ -57,8 +57,8 @@ export default defineConfig(({ command }) => ({
         background_color: "#ffffff",
         display: "standalone",
         orientation: "portrait",
-        scope: command === "build" ? "/learn-thai-app/" : "/",
-        start_url: command === "build" ? "/learn-thai-app/" : "/",
+        scope: command === "build" ? "/sawadee/" : "/",
+        start_url: command === "build" ? "/sawadee/" : "/",
         icons: [
           {
             src: "pwa-64x64.png",
