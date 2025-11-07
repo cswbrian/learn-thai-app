@@ -90,6 +90,22 @@ export const ReadingQuiz = () => {
     };
   }, [quizState, setIsInQuiz]);
 
+  // Warn user before leaving/refreshing during quiz
+  useEffect(() => {
+    if (quizState === "quiz") {
+      const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+        e.preventDefault();
+        e.returnValue = ""; // Required for Chrome
+        return ""; // Required for some browsers
+      };
+
+      window.addEventListener("beforeunload", handleBeforeUnload);
+      return () => {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+      };
+    }
+  }, [quizState]);
+
   // Group consonants by class
   const groupedByClass = useMemo(() => {
     return consonants.reduce(
@@ -205,10 +221,10 @@ export const ReadingQuiz = () => {
       new Map(allConsonants.map((c) => [c.thai, c])).values()
     );
 
-    // Shuffle and limit to maximum 15 consonants
+    // Shuffle and limit to maximum 10 consonants
     const shuffled = [...uniqueConsonants]
       .sort(() => Math.random() - 0.5)
-      .slice(0, 15);
+      .slice(0, 10);
 
     setQuizTab(activeTab);
     setShuffledConsonants(shuffled);
@@ -272,10 +288,10 @@ export const ReadingQuiz = () => {
       new Map(allConsonants.map((c) => [c.thai, c])).values()
     );
 
-    // Shuffle and limit to maximum 15 consonants
+    // Shuffle and limit to maximum 10 consonants
     const shuffled = [...uniqueConsonants]
       .sort(() => Math.random() - 0.5)
-      .slice(0, 15);
+      .slice(0, 10);
     setShuffledConsonants(shuffled);
     setCurrentIndex(0);
     setSelectedAnswer(null);
@@ -295,10 +311,12 @@ export const ReadingQuiz = () => {
   };
 
   const handleExitQuiz = () => {
-    setQuizState("selection");
-    setCurrentIndex(0);
-    setSelectedAnswer(null);
-    setAnswerResults([]);
+    if (window.confirm("Are you sure you want to exit the quiz? Your progress will be lost.")) {
+      setQuizState("selection");
+      setCurrentIndex(0);
+      setSelectedAnswer(null);
+      setAnswerResults([]);
+    }
   };
 
   if (quizState === "selection") {
