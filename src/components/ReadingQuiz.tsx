@@ -523,6 +523,11 @@ export const ReadingQuiz = () => {
                       <div className="text-2xl font-semibold text-foreground">
                         {currentConsonant.consonantSound || "-"}
                       </div>
+                      {currentConsonant.thaiName && (
+                        <div className="text-base text-muted-foreground">
+                          {currentConsonant.thaiName}
+                        </div>
+                      )}
                       <Badge
                         className="text-xs"
                         style={{
