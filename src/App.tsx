@@ -10,6 +10,7 @@ import { Letters } from "@/components/Letters";
 import { Settings } from "@/components/Settings";
 import { ReadingQuiz } from "@/components/ReadingQuiz";
 import { NumbersQuiz } from "@/components/NumbersQuiz";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 const QuizContext = createContext<{
   isInQuiz: boolean;
@@ -21,9 +22,10 @@ const QuizContext = createContext<{
 
 export const useQuizContext = () => useContext(QuizContext);
 
-// Scroll to top on route change
+// Scroll to top on route change and track analytics
 function ScrollToTop() {
   const { pathname } = useLocation();
+  useAnalytics(); // Track page views
 
   useEffect(() => {
     window.scrollTo(0, 0);
